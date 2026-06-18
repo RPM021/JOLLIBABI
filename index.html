@@ -256,8 +256,9 @@
     .topbar{gap:10px;}
     .topnav button span.lbl{display:none;}
   }
-  /* Small phones: improve spacing, larger tap targets, hide sidebar */
+  /* Small phones: improve spacing, stack meta, larger tap targets, remove sidebars */
   @media (max-width:480px){
+    html,body{overflow-x:hidden;} /* prevent horizontal scrolling */
     .topbar{height:64px;padding:0 12px;gap:8px;}
     .brand{font-size:18px;}
     .topbar-right .clock b{font-size:12px;}
@@ -266,12 +267,18 @@
     .item-img{height:110px;font-size:48px;}
     .item-info .nm{font-size:15px;min-height:40px;}
     .item-info .pr{font-size:15px;}
-    .order-panel{margin:12px;border-radius:12px;}
+    .order-panel{margin:12px;border-radius:12px;padding:0;}
+    .order-meta{flex-direction:column;gap:8px;align-items:flex-start;padding:12px;}
+    .meta-block{width:100%;}
+    .order-no{font-size:18px;padding:6px 0;}
+    .type-toggle{width:100%;display:flex;gap:8px;}
+    .type-toggle button{flex:1;padding:8px 10px;font-size:13px;border-radius:9px;}
     .order-list{padding:8px 12px;}
     .qty-ctrl button{width:34px;height:34px;font-size:16px;border-radius:8px;}
     .qty-ctrl span{width:26px;font-size:15px;}
     .pay-btn{min-height:64px;font-size:15px;padding:16px 10px;}
-    .bottom-actions button{padding:12px;font-size:13px;}
+    .bottom-actions{flex-direction:column;padding:0 12px 16px;}
+    .bottom-actions button{padding:12px;font-size:13px;width:100%;}
     .search-box{height:50px;padding:0 12px;}
     .search-box input{font-size:15px;}
     .sidebar{display:none;}
@@ -283,6 +290,24 @@
     .order-panel{width:360px;}
     .menu-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));}
     .topnav button{padding:10px 12px;font-size:13.5px;}
+  }
+
+  /* Orientation-specific: portrait (stacked) */
+  @media (orientation:portrait) and (max-width:900px){
+    .menu-section{order:1;padding:12px 12px 0 12px;}
+    .order-panel{order:2;width:100%;margin:12px 0 18px 0;border-radius:12px;padding:0;}
+    .menu-grid{grid-template-columns:repeat(2,1fr);}
+  }
+
+  /* Orientation-specific: landscape (side-by-side on small screens) */
+  @media (orientation:landscape) and (max-width:1024px){
+    html,body{overflow-x:hidden;}
+    .body{flex-direction:row;}
+    .sidebar{display:none;}
+    .menu-section{flex:1;order:1;padding:12px;}
+    .order-panel{order:2;width:360px;margin:12px;border-radius:12px;}
+    .menu-grid{grid-template-columns:repeat(3,minmax(120px,1fr));gap:10px;}
+    .item-img{height:78px;font-size:36px;}
   }
 </style>
 </head>
