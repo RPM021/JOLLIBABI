@@ -256,6 +256,28 @@
     .topbar{gap:10px;}
     .topnav button span.lbl{display:none;}
   }
+  /* Small phones: improve spacing, larger tap targets, hide sidebar */
+  @media (max-width:480px){
+    .topbar{height:64px;padding:0 12px;gap:8px;}
+    .brand{font-size:18px;}
+    .topbar-right .clock b{font-size:12px;}
+    .menu-grid{grid-template-columns:repeat(2,1fr);gap:10px;padding-bottom:14px;}
+    .item-card{border-radius:12px;}
+    .item-img{height:110px;font-size:48px;}
+    .item-info .nm{font-size:15px;min-height:40px;}
+    .item-info .pr{font-size:15px;}
+    .order-panel{margin:12px;border-radius:12px;}
+    .order-list{padding:8px 12px;}
+    .qty-ctrl button{width:34px;height:34px;font-size:16px;border-radius:8px;}
+    .qty-ctrl span{width:26px;font-size:15px;}
+    .pay-btn{min-height:64px;font-size:15px;padding:16px 10px;}
+    .bottom-actions button{padding:12px;font-size:13px;}
+    .search-box{height:50px;padding:0 12px;}
+    .search-box input{font-size:15px;}
+    .sidebar{display:none;}
+    .side-btn{display:none;}
+    .app{height:auto;}
+  }
   /* Tablet adjustments */
   @media (min-width:901px) and (max-width:1200px){
     .order-panel{width:360px;}
