@@ -302,12 +302,16 @@
   /* Orientation-specific: landscape (side-by-side on small screens) */
   @media (orientation:landscape) and (max-width:1024px){
     html,body{overflow-x:hidden;}
-    .body{flex-direction:row;}
+    .body{flex-direction:row;gap:0;}
     .sidebar{display:none;}
-    .menu-section{flex:1;order:1;padding:12px;}
-    .order-panel{order:2;width:310px;flex-shrink:0;margin:12px 12px 12px 0;border-radius:12px;overflow:hidden;}
-    .menu-grid{grid-template-columns:repeat(3,minmax(110px,1fr));gap:8px;}
-    .item-img{height:78px;font-size:36px;}
+    .menu-section{flex:1;order:1;padding:8px;min-width:0;}
+    .order-panel{order:2;width:280px;flex-shrink:0;margin:8px 8px 8px 0;border-radius:10px;overflow:hidden;}
+    .menu-grid{grid-template-columns:repeat(4,1fr);gap:6px;padding-bottom:10px;}
+    .item-card{border-radius:10px;}
+    .item-img{height:70px;font-size:32px;}
+    .item-info{padding:8px 10px;}
+    .item-info .nm{font-size:12px;min-height:30px;}
+    .item-info .pr{font-size:12px;}
   }
 </style>
 </head>
