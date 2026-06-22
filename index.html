@@ -164,6 +164,7 @@
     background:linear-gradient(160deg,#FFF6E9,#FFE9E0);
   }
   .item-info{padding:10px 12px 12px;}
+  .item-info{color:var(--text);}
   .item-info .nm{font-size:13px;font-weight:700;line-height:1.25;min-height:33px;}
   .item-info .pr{color:var(--red);font-weight:800;font-size:14px;margin-top:6px;font-family:'Inter';}
 
@@ -673,20 +674,32 @@ function renderMenu(){
     const matchSearch = it.name.toLowerCase().includes(searchTerm.toLowerCase());
     return matchCat && matchSearch;
   });
-  menuGrid.innerHTML = items.map(it=>`
+  menuGrid.innerHTML = items.map(it=>{
+    const name = (it.name===undefined || it.name===null) ? '' : String(it.name);
+    const priceNum = (typeof it.price === 'number') ? it.price : parseFloat(it.price) || 0;
+    const tagHtml = it.tag ? `<div class="tag ${String(it.tag).toUpperCase()==='BESTSELLER' ? 'best-seller' : ''}">${it.tag}</div>` : "";
+    return `
     <div class="item-card" data-id="${it.id}">
-      ${it.tag ? `<div class="tag ${it.tag=== 'BESTSELLER' ? 'best-seller' : ''}">${it.tag}</div>`:""}
-      <div class="item-img">${it.icon}</div>
+      ${tagHtml}
+      <div class="item-img">${it.icon || ''}</div>
       <div class="item-info">
-        <div class="nm">${it.name}</div>
-        <div class="pr">₱${it.price.toFixed(2)}</div>
+        <div class="nm">${escapeHtml(name)}</div>
+        <div class="pr">₱${priceNum.toFixed(2)}</div>
       </div>
     </div>
-  `).join("") || `<div class="empty-cart"><span class="empty-icon">🛍</span>No items match your search.</div>`;
+  `;
+  }).join("") || `<div class="empty-cart"><span class="empty-icon">🛍</span>No items match your search.</div>`;
 
   menuGrid.querySelectorAll(".item-card").forEach(card=>{
     card.onclick = ()=> addToCart(parseInt(card.dataset.id,10));
   });
+}
+
+// small helper: escape user-visible strings to avoid breaking templates
+function escapeHtml(str){
+  return String(str).replace(/[&<>"']/g, s=>({
+    '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":"&#39;"
+  })[s]);
 }
 
 document.getElementById("searchInput").addEventListener("input", e=>{
