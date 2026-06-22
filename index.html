@@ -8,8 +8,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
-    --red:#E3231C;
-    --red-dark:#B81810;
+    --brand-primary:#CE1126;
+    --brand-primary-dark:#A10F1B;
+    --brand-primary-light:#FFE9E7;
+    --brand-primary-rgb:206,17,38;
+    --red:#CE1126;
+    --red-dark:#A10F1B;
     --red-soft:#FFE9E7;
     --bg:#F4F3EF;
     --panel:#FFFFFF;
@@ -45,7 +49,7 @@
 
   /* ===== TOPBAR ===== */
   .topbar{
-    background:linear-gradient(135deg,var(--red) 0%,#d71619 45%,var(--red-dark) 100%);
+    background:linear-gradient(135deg,var(--brand-primary) 0%,var(--brand-primary-dark) 100%);
     color:#fff;
     display:flex;
     align-items:center;
@@ -61,7 +65,7 @@
   }
   .view-order-btn{
     position:fixed;right:16px;bottom:16px;z-index:105;
-    background:var(--red);color:#fff;border:none;border-radius:999px;padding:14px 18px;font-weight:800;font-size:14px;cursor:pointer;box-shadow:0 10px 28px rgba(0,0,0,0.18);min-height:48px;
+    background:var(--brand-primary);color:#fff;border:none;border-radius:999px;padding:14px 18px;font-weight:800;font-size:14px;cursor:pointer;box-shadow:0 10px 28px rgba(0,0,0,0.18);min-height:48px;
   }
   .view-order-btn.hidden{display:none;}
   .brand{display:flex;align-items:center;gap:10px;font-family:'Baloo 2',sans-serif;font-weight:800;font-size:22px;white-space:nowrap;}
@@ -75,12 +79,12 @@
     touch-action:manipulation;
   }
   .topnav button:hover{opacity:1;background:rgba(255,255,255,0.12);}
-  .topnav button.active{background:#fff;color:var(--red-dark);opacity:1;}
+  .topnav button.active{background:#fff;color:var(--brand-primary-dark);opacity:1;}
   .topbar-right{display:flex;align-items:center;gap:18px;font-size:13px;}
   .clock{text-align:right;line-height:1.25;opacity:.95;white-space:nowrap;}
   .clock b{font-size:13.5px;}
   .cashier{display:flex;align-items:center;gap:8px;cursor:pointer;}
-  .cashier .avatar{width:30px;height:30px;border-radius:50%;background:#fff;color:var(--red);display:flex;align-items:center;justify-content:center;font-weight:800;}
+  .cashier .avatar{width:30px;height:30px;border-radius:50%;background:#fff;color:var(--brand-primary);display:flex;align-items:center;justify-content:center;font-weight:800;}
   .cashier .name b{display:block;font-size:13px;}
   .cashier .name span{display:block;font-size:10.5px;opacity:.8;}
   .logout{background:rgba(255,255,255,0.15);border:none;color:#fff;width:34px;height:34px;border-radius:10px;cursor:pointer;font-size:15px;}
@@ -103,15 +107,86 @@
   }
   .side-btn{min-width:56px;min-height:48px;}
   .side-btn .ic{font-size:19px;}
-  .side-btn.active{background:var(--red);color:#fff;}
-  .side-btn:not(.active):hover{background:var(--red-soft);color:var(--red-dark);}
+  .side-btn.active{background:var(--brand-primary);color:#fff;}
+  .side-btn:not(.active):hover{background:var(--brand-primary-light);color:var(--brand-primary-dark);}
   .sidebar-foot{margin-top:auto;text-align:center;font-size:10px;color:var(--muted);padding-top:10px;}
   .sidebar-foot .dot{width:6px;height:6px;border-radius:50%;background:var(--green);display:inline-block;margin-right:4px;}
 
   /* ===== MENU SECTION ===== */
-  .menu-section{flex:1;display:flex;flex-direction:column;min-width:0;padding:18px 18px 0 18px;min-height:0;}
+  .main-content{flex:1;display:flex;flex-direction:column;min-width:0;padding:18px 18px 0 18px;min-height:0;height:calc(100vh - 60px);overflow:hidden;}
+  .menu-section,
+  .reports-page,
+  .settings-page{flex:1;display:flex;flex-direction:column;min-width:0;min-height:0;overflow:hidden;}
+  .page-hidden{display:none!important;}
   /* contain the center column to viewport height minus header so the grid can scroll independently */
-  .menu-section{height:calc(100vh - 60px);overflow:hidden;}
+  .menu-section{height:100%;overflow:hidden;}
+  .reports-page,
+  .settings-page{background:var(--bg);padding:0;}
+  .reports-header,
+  .settings-header{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding-bottom:18px;}
+  .page-label{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.2em;}
+  .reports-header h2,
+  .settings-header h2{margin:0;font-size:24px;line-height:1.2;color:var(--text);}
+  .report-filters{display:flex;gap:10px;flex-wrap:wrap;}
+  .pill{border:1px solid var(--border);background:var(--panel);color:var(--text);padding:10px 16px;border-radius:999px;font-size:13px;font-weight:700;cursor:pointer;}
+  .pill.active{background:var(--brand-primary);border-color:var(--brand-primary);color:#fff;}
+  .reports-cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:18px;}
+  .report-card{background:var(--panel);border:1px solid var(--border);border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:10px;box-shadow:var(--shadow);}
+  .card-icon{width:44px;height:44px;border-radius:16px;background:var(--brand-primary-light);display:flex;align-items:center;justify-content:center;font-size:20px;}
+  .card-label{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.15em;}
+  .card-value{font-size:22px;font-weight:800;color:var(--text);line-height:1.1;}
+  .card-badge{align-self:flex-start;padding:5px 10px;border-radius:999px;font-size:12px;font-weight:700;}
+  .badge-positive{background:rgba(31,174,86,.12);color:var(--green-dark);}
+  .badge-negative{background:rgba(227,35,28,.12);color:var(--brand-primary-dark);}
+  .reports-grid{display:grid;grid-template-columns:2fr 1fr;gap:14px;}
+  .report-panel{background:var(--panel);border:1px solid var(--border);border-radius:18px;padding:18px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:16px;}
+  .panel-title{font-size:15px;font-weight:800;color:var(--text);}
+  .category-chart,.trend-chart{display:flex;flex-direction:column;gap:10px;}
+  .chart-row{display:grid;grid-template-columns:1.15fr 1fr 0.5fr;gap:10px;align-items:center;font-size:13px;color:var(--text);}
+  .chart-bar{height:12px;background:var(--border);border-radius:999px;overflow:hidden;}
+  .chart-bar div{height:100%;background:var(--brand-primary);border-radius:999px;}
+  .trend-chart{display:grid;grid-template-columns:repeat(14,minmax(0,1fr));gap:8px;align-items:end;min-height:160px;padding-top:10px;border-top:1px solid var(--border);}
+  .trend-bar{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:6px;padding-bottom:6px;background:rgba(14,9,35,.025);border-radius:14px;}
+  .trend-bar span{font-size:10px;color:var(--muted);transform:rotate(-45deg);white-space:nowrap;width:60px;text-align:right;margin-bottom:-18px;}
+  .transaction-table-wrapper{overflow-x:auto;}
+  .transaction-table{width:100%;border-collapse:collapse;font-size:13px;}
+  .transaction-table th,
+  .transaction-table td{padding:12px 14px;text-align:left;border-bottom:1px solid var(--border);}
+  .transaction-table thead th{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.2em;}
+  .transaction-table tbody tr:nth-child(odd){background:var(--bg);}
+  .top-items-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px;font-size:14px;}
+  .top-items-list li{background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:14px;}
+  .settings-grid{display:grid;grid-template-columns:2fr 1fr;gap:14px;}
+  .settings-card{background:var(--panel);border:1px solid var(--border);border-radius:18px;padding:18px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:16px;}
+  .settings-card-title{font-size:14px;font-weight:800;color:var(--text);}
+  .theme-swatches{display:flex;flex-wrap:wrap;gap:12px;}
+  .theme-swatch{width:46px;height:46px;border-radius:50%;border:2px solid transparent;cursor:pointer;position:relative;}
+  .theme-swatch.active{border-color:var(--text);}
+  .theme-swatch::after{content:'✓';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;opacity:0;font-size:18px;font-weight:800;}
+  .theme-swatch.active::after{opacity:1;}
+  .theme-swatch-red{background:#CE1126;}
+  .theme-swatch-pink{background:#EC4899;}
+  .theme-swatch-blue{background:#2563EB;}
+  .theme-swatch-green{background:#16A34A;}
+  .theme-swatch-purple{background:#7C3AED;}
+  .theme-swatch-orange{background:#EA580C;}
+  .theme-preview{display:flex;flex-wrap:wrap;gap:12px;align-items:center;}
+  .preview-chip{background:var(--brand-primary-light);color:var(--brand-primary-dark);padding:10px 14px;border-radius:999px;font-weight:700;}
+  .preview-button{background:var(--brand-primary);color:#fff;border:none;padding:10px 18px;border-radius:999px;cursor:pointer;font-weight:700;}
+  .preference-row{display:flex;justify-content:space-between;align-items:center;gap:12px;}
+  .toggle-btn{border:1px solid var(--border);background:var(--panel);color:var(--text);padding:10px 16px;border-radius:999px;cursor:pointer;}
+  .cashier-card .profile-row{display:flex;justify-content:space-between;gap:12px;}
+  .profile-label{color:var(--muted);font-size:13px;}
+  .profile-row strong{font-size:15px;}
+  .compact-mode .page-label,
+  .compact-mode .topnav button,
+  .compact-mode .pill,
+  .compact-mode .report-card,
+  .compact-mode .report-panel,
+  .compact-mode .settings-card,
+  .compact-mode .order-buttons button,
+  .compact-mode .bottom-actions button,
+  .compact-mode .pay-btn{font-size:13px;}
   .search-row{display:flex;gap:10px;margin-bottom:14px;flex-shrink:0;}
   .search-box{
     flex:1;background:var(--panel);border:1px solid var(--border);border-radius:12px;
@@ -126,7 +201,7 @@
     padding:9px 16px;border-radius:999px;font-family:'Inter';font-weight:700;font-size:12.5px;
     white-space:nowrap;cursor:pointer;letter-spacing:.3px;
   }
-  .cat-tabs button.active{background:var(--red);border-color:var(--red);color:#fff;box-shadow:inset 0 0 0 2px rgba(255,255,255,0.08);}
+  .cat-tabs button.active{background:var(--brand-primary);border-color:var(--brand-primary);color:#fff;box-shadow:inset 0 0 0 2px rgba(255,255,255,0.08);}
 
   .cat-tabs button,
   .side-btn,
@@ -161,10 +236,10 @@
     cursor:pointer;overflow:hidden;box-shadow:0 1px 6px rgba(38,36,32,0.08);transition:transform .2s ease-in-out,box-shadow .2s ease-in-out,border-color .2s ease-in-out,opacity .2s ease-in-out;
     position:relative;transform:translateZ(0);
   }
-  .item-card:hover{transform:translateY(-4px) scale(1.02);box-shadow:0 12px 30px rgba(38,36,32,0.14);border-color:rgba(227,35,28,0.4);}
+  .item-card:hover{transform:translateY(-4px) scale(1.02);box-shadow:0 12px 30px rgba(38,36,32,0.14);border-color:rgba(var(--brand-primary-rgb),0.4);}
   .item-card:active{transform:translateY(-2px) scale(0.97);}
   .item-card .tag{
-    position:absolute;top:8px;left:8px;background:var(--red);color:#fff;font-size:9px;font-weight:800;
+    position:absolute;top:8px;left:8px;background:var(--brand-primary);color:#fff;font-size:9px;font-weight:800;
     padding:3px 7px;border-radius:6px;letter-spacing:.5px;z-index:2;transition:background-color .15s ease-in-out,transform .15s ease-in-out;
   }
   .item-img{
@@ -188,7 +263,7 @@
     margin:0;border-radius:18px;box-shadow:0 24px 48px rgba(0,0,0,0.28);
   }
   .order-head{
-    background:linear-gradient(180deg,var(--red),var(--red-dark));color:#fff;
+    background:linear-gradient(180deg,var(--brand-primary),var(--brand-primary-dark));color:#fff;
     padding:14px 18px;font-weight:800;letter-spacing:.5px;font-size:13px;
     display:flex;justify-content:space-between;align-items:center;
     position:sticky;top:0;z-index:12;/* stay pinned while panel scrolls */
@@ -206,7 +281,7 @@
     flex:1;border:1.5px solid var(--border);background:var(--panel);padding:8px 12px;border-radius:9px;
     font-size:12px;font-weight:700;cursor:pointer;color:var(--text);display:inline-flex;align-items:center;justify-content:center;gap:8px;white-space:nowrap;
   }
-  .type-toggle button.active{background:var(--red);border-color:var(--red);color:#fff;}
+  .type-toggle button.active{background:var(--brand-primary);border-color:var(--brand-primary);color:#fff;}
 
   .order-list{flex:1;overflow-y:auto;padding:6px 18px;min-height:90px;-webkit-overflow-scrolling:touch;}
   /* wrapper for all scrollable content under the header */
@@ -224,13 +299,13 @@
   .qty-ctrl span{width:18px;text-align:center;font-weight:700;font-size:12.5px;}
   .row-total{width:58px;text-align:right;font-weight:700;font-size:12.5px;}
   .row-del{background:none;border:none;color:#C7C2BC;cursor:pointer;font-size:14px;padding:0 2px;}
-  .row-del:hover{color:var(--red);}
+  .row-del:hover{color:var(--brand-primary);}
 
   .order-buttons{display:flex;gap:8px;padding:12px 18px;}
   .order-buttons button{
     flex:1;padding:10px;border-radius:10px;font-weight:700;font-size:12.5px;cursor:pointer;border:1.5px solid var(--border);background:var(--panel);
   }
-  .order-buttons .clear{color:var(--red);}
+  .order-buttons .clear{color:var(--brand-primary);}
   .order-buttons .hold{color:var(--orange-dark);}
   .order-buttons button:hover{background:var(--bg);}
 
@@ -238,14 +313,14 @@
   .t-row{display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;color:var(--muted);}
   .t-row span{min-width:0;}
   .t-row.total{color:var(--text);font-weight:800;font-size:17px;margin-top:8px;font-family:'Baloo 2';}
-  .t-row.total .amt{color:var(--red);}
+  .t-row.total .amt{color:var(--brand-primary);}
 
   .tender-row{display:flex;align-items:center;gap:10px;padding:10px 18px;border-top:1px solid var(--border);}
   .tender-row label{font-size:11.5px;font-weight:700;color:var(--muted);width:90px;}
   .tender-row input{flex:1;border:1.5px solid var(--border);border-radius:9px;padding:8px 10px;font-size:14px;font-weight:700;text-align:right;font-family:'Inter';}
   .tender-row input{min-width:0}
   .change-row{display:flex;justify-content:space-between;padding:0 18px 12px;font-size:13px;font-weight:700;}
-  .change-row .val.neg{color:var(--red);}
+  .change-row .val.neg{color:var(--brand-primary);}
   .change-row .val.pos{color:var(--green-dark);}
   .customer-row{display:flex;align-items:center;gap:10px;padding:10px 18px;border-top:1px solid var(--border);}
   .customer-row label{font-size:11.5px;font-weight:700;color:var(--muted);width:90px;}
@@ -280,7 +355,7 @@
     font-family:'Inter';box-shadow:0 30px 60px rgba(0,0,0,0.22);
     transform:scale(.95);opacity:0;animation:modal-open .2s ease-out forwards;
   }
-  .receipt h3{font-family:'Baloo 2';color:var(--red);margin:0 0 2px;text-align:center;font-size:19px;}
+  .receipt h3{font-family:'Baloo 2';color:var(--brand-primary);margin:0 0 2px;text-align:center;font-size:19px;}
   .receipt .sub{text-align:center;color:var(--muted);font-size:11.5px;margin-bottom:14px;}
   .receipt .line{display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:5px;}
   .receipt hr{border:none;border-top:1.5px dashed var(--border);margin:10px 0;}
@@ -302,14 +377,14 @@
     *,*::before,*::after{transition:none!important;animation:none!important;}
   }
   .receipt-actions .pr{background:var(--bg);border:1.5px solid var(--border);}
-  .receipt-actions .done{background:var(--red);color:#fff;}
+  .receipt-actions .done{background:var(--brand-primary);color:#fff;}
 
   .held-panel{width:min(90vw,320px);max-height:90vh;overflow-y:auto;background:#fff;border-radius:24px;padding:18px;box-shadow:0 30px 60px rgba(0,0,0,0.22);transform:scale(.95);opacity:0;animation:modal-open .2s ease-out forwards;}  
   .held-panel{ -webkit-overflow-scrolling:touch; }
   .held-panel h3{font-family:'Baloo 2';margin:0 0 12px;font-size:17px;}
   .held-item{border:1px solid var(--border);border-radius:10px;padding:10px 12px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;}
   .held-item div b{font-size:12.5px;} .held-item div span{display:block;font-size:11px;color:var(--muted);}
-  .held-item button{background:var(--red);color:#fff;border:none;border-radius:8px;padding:6px 10px;font-size:11px;font-weight:700;cursor:pointer;}
+  .held-item button{background:var(--brand-primary);color:#fff;border:none;border-radius:8px;padding:6px 10px;font-size:11px;font-weight:700;cursor:pointer;}
   .held-empty{color:var(--muted);font-size:13px;text-align:center;padding:20px 0;}
 
   .toast{
@@ -485,15 +560,153 @@
       <div class="sidebar-foot"><span class="dot"></span>Connected</div>
     </aside>
 
-    <main class="menu-section">
-      <div class="search-row">
-        <div class="search-box">🔍<input id="searchInput" placeholder="Search menu item..."></div>
-        <button class="filter-btn">⚲</button>
-      </div>
-      <div class="cat-tabs" id="catTabs"></div>
-      <div class="menu-scroll">
-        <div class="menu-grid" id="menuGrid"></div>
-      </div>
+    <main class="main-content">
+      <section class="menu-section">
+        <div class="search-row">
+          <div class="search-box">🔍<input id="searchInput" placeholder="Search menu item..."></div>
+          <button class="filter-btn">⚲</button>
+        </div>
+        <div class="cat-tabs" id="catTabs"></div>
+        <div class="menu-scroll">
+          <div class="menu-grid" id="menuGrid"></div>
+        </div>
+      </section>
+
+      <section class="reports-page">
+        <div class="reports-header">
+          <div>
+            <div class="page-label">Reports</div>
+            <h2>Daily Performance</h2>
+          </div>
+          <div class="report-filters">
+            <button class="pill active" data-report-range="today">Today</button>
+            <button class="pill" data-report-range="week">This Week</button>
+            <button class="pill" data-report-range="month">This Month</button>
+          </div>
+        </div>
+        <div class="reports-cards">
+          <div class="report-card">
+            <div class="card-icon">💰</div>
+            <div class="card-label">Today's Sales</div>
+            <div class="card-value">₱18,452.00</div>
+            <div class="card-badge badge-positive">+12%</div>
+          </div>
+          <div class="report-card">
+            <div class="card-icon">🧾</div>
+            <div class="card-label">Orders Completed Today</div>
+            <div class="card-value">87</div>
+            <div class="card-badge badge-positive">+8%</div>
+          </div>
+          <div class="report-card">
+            <div class="card-icon">📈</div>
+            <div class="card-label">Average Order Value</div>
+            <div class="card-value">₱212.32</div>
+            <div class="card-badge badge-negative">-4%</div>
+          </div>
+          <div class="report-card">
+            <div class="card-icon">🏆</div>
+            <div class="card-label">Most Sold Item</div>
+            <div class="card-value">1 pc. Chickenjoy with Rice</div>
+            <div class="card-badge badge-positive">34 sold</div>
+          </div>
+        </div>
+        <div class="reports-grid">
+          <div class="report-panel report-chart-panel">
+            <div class="panel-title">Sales by Category</div>
+            <div class="category-chart">
+              <div class="chart-row"><span>Chicken</span><div class="chart-bar"><div style="width:32%;"></div></div><span>32%</span></div>
+              <div class="chart-row"><span>Rice Meals</span><div class="chart-bar"><div style="width:24%;"></div></div><span>24%</span></div>
+              <div class="chart-row"><span>Spaghetti</span><div class="chart-bar"><div style="width:18%;"></div></div><span>18%</span></div>
+              <div class="chart-row"><span>Burgers</span><div class="chart-bar"><div style="width:14%;"></div></div><span>14%</span></div>
+              <div class="chart-row"><span>Beverages</span><div class="chart-bar"><div style="width:8%;"></div></div><span>8%</span></div>
+              <div class="chart-row"><span>Desserts</span><div class="chart-bar"><div style="width:4%;"></div></div><span>4%</span></div>
+            </div>
+          </div>
+          <div class="report-panel report-chart-panel">
+            <div class="panel-title">Hourly Sales Trend</div>
+            <div class="trend-chart">
+              <div class="trend-bar" style="height:20%;"><span>8 AM</span></div>
+              <div class="trend-bar" style="height:28%;"><span>9 AM</span></div>
+              <div class="trend-bar" style="height:34%;"><span>10 AM</span></div>
+              <div class="trend-bar" style="height:48%;"><span>11 AM</span></div>
+              <div class="trend-bar" style="height:78%;"><span>12 PM</span></div>
+              <div class="trend-bar" style="height:72%;"><span>1 PM</span></div>
+              <div class="trend-bar" style="height:58%;"><span>2 PM</span></div>
+              <div class="trend-bar" style="height:44%;"><span>3 PM</span></div>
+              <div class="trend-bar" style="height:36%;"><span>4 PM</span></div>
+              <div class="trend-bar" style="height:40%;"><span>5 PM</span></div>
+              <div class="trend-bar" style="height:85%;"><span>6 PM</span></div>
+              <div class="trend-bar" style="height:92%;"><span>7 PM</span></div>
+              <div class="trend-bar" style="height:68%;"><span>8 PM</span></div>
+              <div class="trend-bar" style="height:40%;"><span>9 PM</span></div>
+            </div>
+          </div>
+          <div class="report-panel report-list-panel">
+            <div class="panel-title">Recent Transactions</div>
+            <div class="transaction-table-wrapper">
+              <table class="transaction-table">
+                <thead><tr><th>Order No.</th><th>Time</th><th>Items</th><th>Type</th><th>Payment</th><th>Total</th></tr></thead>
+                <tbody>
+                  <tr><td>#000178</td><td>12:08 PM</td><td>3</td><td>Dine-in</td><td>Cash</td><td>₱642.00</td></tr>
+                  <tr><td>#000179</td><td>12:22 PM</td><td>2</td><td>Take-out</td><td>Card</td><td>₱289.00</td></tr>
+                  <tr><td>#000180</td><td>12:45 PM</td><td>4</td><td>Dine-in</td><td>Cash</td><td>₱840.00</td></tr>
+                  <tr><td>#000181</td><td>1:05 PM</td><td>1</td><td>Take-out</td><td>E-Wallet</td><td>₱65.00</td></tr>
+                  <tr><td>#000182</td><td>6:12 PM</td><td>5</td><td>Dine-in</td><td>Card</td><td>₱1,124.00</td></tr>
+                  <tr><td>#000183</td><td>6:37 PM</td><td>3</td><td>Take-out</td><td>Cash</td><td>₱478.00</td></tr>
+                  <tr><td>#000184</td><td>7:05 PM</td><td>4</td><td>Dine-in</td><td>E-Wallet</td><td>₱904.00</td></tr>
+                  <tr><td>#000185</td><td>7:29 PM</td><td>2</td><td>Take-out</td><td>Card</td><td>₱218.00</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="report-panel report-list-panel">
+            <div class="panel-title">Top Selling Items</div>
+            <ol class="top-items-list">
+              <li><strong>#1</strong> 1 pc. Chickenjoy with Rice — 34 sold — ₱2,788.00</li>
+              <li><strong>#2</strong> Jolly Spaghetti — 28 sold — ₱1,820.00</li>
+              <li><strong>#3</strong> Burger Steak with Rice — 22 sold — ₱1,738.00</li>
+              <li><strong>#4</strong> Coke Float — 19 sold — ₱1,235.00</li>
+              <li><strong>#5</strong> Peach Mango Pie — 17 sold — ₱816.00</li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <section class="settings-page">
+        <div class="settings-header">
+          <div>
+            <div class="page-label">Settings</div>
+            <h2>Personalize Your Experience</h2>
+          </div>
+        </div>
+        <div class="settings-grid">
+          <div class="settings-card">
+            <div class="settings-card-title">Theme Color</div>
+            <div class="theme-swatches">
+              <button class="theme-swatch theme-swatch-red active" data-theme="red" aria-label="Classic Red"></button>
+              <button class="theme-swatch theme-swatch-pink" data-theme="pink" aria-label="Bubblegum Pink"></button>
+              <button class="theme-swatch theme-swatch-blue" data-theme="blue" aria-label="Ocean Blue"></button>
+              <button class="theme-swatch theme-swatch-green" data-theme="green" aria-label="Forest Green"></button>
+              <button class="theme-swatch theme-swatch-purple" data-theme="purple" aria-label="Royal Purple"></button>
+              <button class="theme-swatch theme-swatch-orange" data-theme="orange" aria-label="Sunset Orange"></button>
+            </div>
+            <div class="theme-preview">
+              <div class="preview-chip">Preview</div>
+              <button class="preview-button">Primary Action</button>
+            </div>
+          </div>
+          <div class="settings-card">
+            <div class="settings-card-title">Preferences</div>
+            <div class="preference-row"><span>Sound Effects</span><button class="toggle-btn" data-toggle="soundEffects">Off</button></div>
+            <div class="preference-row"><span>Compact Mode</span><button class="toggle-btn" data-toggle="compactMode">Off</button></div>
+          </div>
+          <div class="settings-card cashier-card">
+            <div class="settings-card-title">Cashier Profile</div>
+            <div class="profile-row"><span class="profile-label">Name</span><strong id="profileName">FRANCINE ROWIE MARCELO</strong></div>
+            <div class="profile-row"><span class="profile-label">Role</span><span>Cashier</span></div>
+          </div>
+        </div>
+      </section>
     </main>
 
     <section class="order-panel" id="orderPanel">
@@ -637,7 +850,7 @@ const CATS = [["all","All"],["promos","Promos"],["chicken","Chicken"],["burgers"
 
 let cart = [];
 let heldOrders = [];
-let orderNo = parseInt(localStorage.getItem("jb_orderNo") || "124", 10);
+let orderNo = 124;
 let orderType = "Dine-in";
 let activeCat = "all";
 let searchTerm = "";
@@ -652,13 +865,62 @@ const heldBadge = document.getElementById("heldBadge");
 const tenderedInput = document.getElementById("tenderedInput");
 
 /* ---------- INIT ---------- */
+const THEME_PALETTES = {
+  red:{primary:'#CE1126',dark:'#A10F1B',light:'#FFE9E7',rgb:'206,17,38'},
+  pink:{primary:'#EC4899',dark:'#BE185D',light:'#FCE7F3',rgb:'236,72,153'},
+  blue:{primary:'#2563EB',dark:'#1D4ED8',light:'#DBEAFE',rgb:'37,99,235'},
+  green:{primary:'#16A34A',dark:'#15803D',light:'#DCFCE7',rgb:'22,163,74'},
+  purple:{primary:'#7C3AED',dark:'#5B21B6',light:'#EDE9FE',rgb:'124,58,237'},
+  orange:{primary:'#EA580C',dark:'#C2410C',light:'#FFEDD5',rgb:'234,88,12'},
+};
+
+let appState = {
+  page:'new',
+  theme:'red',
+  soundEffects:false,
+  compactMode:false,
+};
+
+function setTheme(theme){
+  const palette = THEME_PALETTES[theme];
+  if(!palette) return;
+  document.documentElement.style.setProperty('--brand-primary', palette.primary);
+  document.documentElement.style.setProperty('--brand-primary-dark', palette.dark);
+  document.documentElement.style.setProperty('--brand-primary-light', palette.light);
+  document.documentElement.style.setProperty('--brand-primary-rgb', palette.rgb);
+  document.querySelectorAll('.theme-swatch').forEach(btn=>btn.classList.toggle('active', btn.dataset.theme===theme));
+  appState.theme = theme;
+}
+
+function setPreference(pref, value){
+  appState[pref] = value;
+  const btn = document.querySelector(`.toggle-btn[data-toggle="${pref}"]`);
+  if(btn) btn.textContent = value ? 'On' : 'Off';
+  if(pref==='compactMode'){
+    document.body.classList.toggle('compact-mode', value);
+  }
+}
+
+function showPage(page){
+  appState.page = page;
+  document.querySelectorAll('.main-content > section').forEach(sec=>sec.classList.add('page-hidden'));
+  document.querySelector('.menu-section').classList.toggle('page-hidden', page !== 'new');
+  document.querySelector('.reports-page').classList.toggle('page-hidden', page !== 'reports');
+  document.querySelector('.settings-page').classList.toggle('page-hidden', page !== 'settings');
+  document.getElementById('orderPanel').classList.toggle('page-hidden', page !== 'new');
+  document.querySelectorAll('.topnav button').forEach(btn=>btn.classList.toggle('active', btn.dataset.tab===page));
+}
+
 function init(){
-  document.getElementById("cashierName").textContent = localStorage.getItem("jb_cashier") || "FRANCINE ROWIE MARCELO";
-  document.getElementById("cashierInitial").textContent = (localStorage.getItem("jb_cashier")||"FRANCINE ROWIE MARCELO").charAt(0).toUpperCase();
+  document.getElementById("cashierName").textContent = "FRANCINE ROWIE MARCELO";
+  document.getElementById("cashierInitial").textContent = "F";
+  document.getElementById('profileName').textContent = "FRANCINE ROWIE MARCELO";
   renderCatTabs();
   renderMenu();
   renderOrder();
   updateClock();
+  setTheme('red');
+  showPage('new');
   setInterval(updateClock, 1000);
 }
 
@@ -840,7 +1102,6 @@ document.getElementById("holdBtn").onclick = ()=>{
   heldOrders.push({orderNo, type:orderType, items:[...cart]});
   cart=[]; tenderedInput.value="";
   orderNo++;
-  localStorage.setItem("jb_orderNo", orderNo);
   renderOrder();
   showToast("Order held");
 };
@@ -916,7 +1177,6 @@ function handlePay(method){
   showReceipt(lastReceipt, true);
   cart=[]; tenderedInput.value="";
   orderNo++;
-  localStorage.setItem("jb_orderNo", orderNo);
   renderOrder();
 }
 
@@ -998,7 +1258,6 @@ document.getElementById("cashierBtn").onclick = ()=>{
   if(name && name.trim()){
     document.getElementById("cashierName").textContent = name.trim();
     document.getElementById("cashierInitial").textContent = name.trim().charAt(0).toUpperCase();
-    localStorage.setItem("jb_cashier", name.trim());
   }
 };
 
