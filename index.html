@@ -110,6 +110,8 @@
 
   /* ===== MENU SECTION ===== */
   .menu-section{flex:1;display:flex;flex-direction:column;min-width:0;padding:18px 18px 0 18px;min-height:0;}
+  /* contain the center column to viewport height minus header so the grid can scroll independently */
+  .menu-section{height:calc(100vh - 60px);overflow:hidden;}
   .search-row{display:flex;gap:10px;margin-bottom:14px;flex-shrink:0;}
   .search-box{
     flex:1;background:var(--panel);border:1px solid var(--border);border-radius:12px;
@@ -143,10 +145,16 @@
   .pay-wallet{box-shadow:0 10px 20px rgba(124,77,255,0.16);} .pay-wallet:hover{filter:brightness(1.08);} .pay-wallet:active{transform:scale(0.95);filter:brightness(0.96);}
   .pay-more{box-shadow:0 10px 20px rgba(255,143,31,0.18);} .pay-more:hover{filter:brightness(1.08);} .pay-more:active{transform:scale(0.95);filter:brightness(0.96);}
 
+  .menu-scroll{flex:1;overflow-y:auto;padding-bottom:20px;-webkit-overflow-scrolling:touch;}
   .menu-grid{
-    flex:1;overflow-y:auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
-    gap:14px;padding-bottom:18px;align-content:start;
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
+    gap:14px;padding:6px 0 8px 0;align-content:start;
   }
+  /* subtle scrollbars */
+  .menu-scroll{scrollbar-width:thin;scrollbar-color:rgba(0,0,0,0.12) transparent;}
+  .menu-scroll::-webkit-scrollbar{width:8px;height:8px}
+  .menu-scroll::-webkit-scrollbar-track{background:transparent;border-radius:8px}
+  .menu-scroll::-webkit-scrollbar-thumb{background:rgba(0,0,0,0.12);border-radius:8px}
   .menu-grid{ -webkit-overflow-scrolling:touch; }
   .item-card{
     background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);
@@ -474,7 +482,9 @@
         <button class="filter-btn">⚲</button>
       </div>
       <div class="cat-tabs" id="catTabs"></div>
-      <div class="menu-grid" id="menuGrid"></div>
+      <div class="menu-scroll">
+        <div class="menu-grid" id="menuGrid"></div>
+      </div>
     </main>
 
     <section class="order-panel" id="orderPanel">
