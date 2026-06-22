@@ -137,7 +137,7 @@
   .card-value{font-size:22px;font-weight:800;color:var(--text);line-height:1.1;}
   .card-badge{align-self:flex-start;padding:5px 10px;border-radius:999px;font-size:12px;font-weight:700;}
   .badge-positive{background:rgba(31,174,86,.12);color:var(--green-dark);}
-  .badge-negative{background:rgba(227,35,28,.12);color:var(--brand-primary-dark);}
+  .badge-negative{background:rgba(var(--brand-primary-rgb),.12);color:var(--brand-primary-dark);}
   .reports-grid{display:grid;grid-template-columns:2fr 1fr;gap:14px;}
   .report-panel{background:var(--panel);border:1px solid var(--border);border-radius:18px;padding:18px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:16px;}
   .panel-title{font-size:15px;font-weight:800;color:var(--text);}
@@ -212,8 +212,8 @@
     transition:background-color .2s ease-in-out,border-color .2s ease-in-out,box-shadow .2s ease-in-out,transform .2s ease-in-out,color .2s ease-in-out;
   }
 
-  .side-btn.active{background:rgba(227,35,28,0.12);color:var(--red-dark);box-shadow:inset 4px 0 0 rgba(227,35,28,0.25);}
-  .side-btn:hover{background:rgba(227,35,28,0.08);}
+  .side-btn.active{background:rgba(var(--brand-primary-rgb),0.12);color:var(--brand-primary-dark);box-shadow:inset 4px 0 0 rgba(var(--brand-primary-rgb),0.25);}
+  .side-btn:hover{background:rgba(var(--brand-primary-rgb),0.08);}
   .pay-btn{box-shadow:0 6px 18px rgba(0,0,0,0.08);}
   .pay-cash{box-shadow:0 10px 20px rgba(31,174,86,0.18);} .pay-cash:hover{filter:brightness(1.08);} .pay-cash:active{transform:scale(0.95);filter:brightness(0.96);}
   .pay-card{box-shadow:0 10px 20px rgba(21,101,216,0.18);} .pay-card:hover{filter:brightness(1.08);} .pay-card:active{transform:scale(0.95);filter:brightness(0.96);}
@@ -248,7 +248,7 @@
   }
   .item-info{padding:10px 12px 12px;color:var(--text);min-height:38px}
   .item-info .nm{font-size:13px;font-weight:700;line-height:1.25;min-height:33px;display:block!important;color:var(--text)!important;opacity:1!important}
-  .item-info .pr{color:var(--red);font-weight:800;font-size:14px;margin-top:6px;font-family:'Inter';display:block!important;opacity:1!important}
+  .item-info .pr{color:var(--brand-primary);font-weight:800;font-size:14px;margin-top:6px;font-family:'Inter';display:block!important;opacity:1!important}
 
   /* ===== ORDER PANEL ===== */
   .order-panel{
@@ -361,8 +361,8 @@
   .receipt hr{border:none;border-top:1.5px dashed var(--border);margin:10px 0;}
   .receipt .grand{font-weight:800;font-size:15px;}
   .receipt-actions{display:flex;gap:8px;margin-top:16px;}
-  .focus-ring:focus-visible{outline:none;box-shadow:0 0 0 3px rgba(227,35,28,0.35),0 0 0 6px rgba(255,255,255,0.4);}
-  button:focus-visible,input:focus-visible{outline:none;box-shadow:0 0 0 3px rgba(227,35,28,0.35),0 0 0 6px rgba(255,255,255,0.4);}
+  .focus-ring:focus-visible{outline:none;box-shadow:0 0 0 3px rgba(var(--brand-primary-rgb),0.35),0 0 0 6px rgba(255,255,255,0.4);}
+  button:focus-visible,input:focus-visible{outline:none;box-shadow:0 0 0 3px rgba(var(--brand-primary-rgb),0.35),0 0 0 6px rgba(255,255,255,0.4);}
   .sheet-handle{width:40px;height:4px;background:rgba(38,36,32,0.16);border-radius:999px;margin:12px auto 0;opacity:0;transition:opacity .2s ease-in-out;}
   .order-panel.mobile-open .sheet-handle{opacity:1;}
   .amount-pulse{animation:amount-pulse .35s ease-in-out forwards;}
@@ -888,6 +888,9 @@ function setTheme(theme){
   document.documentElement.style.setProperty('--brand-primary-dark', palette.dark);
   document.documentElement.style.setProperty('--brand-primary-light', palette.light);
   document.documentElement.style.setProperty('--brand-primary-rgb', palette.rgb);
+  document.documentElement.style.setProperty('--red', palette.primary);
+  document.documentElement.style.setProperty('--red-dark', palette.dark);
+  document.documentElement.style.setProperty('--red-soft', palette.light);
   document.querySelectorAll('.theme-swatch').forEach(btn=>btn.classList.toggle('active', btn.dataset.theme===theme));
   appState.theme = theme;
 }
@@ -1235,9 +1238,26 @@ document.getElementById("drawerBtn").onclick = ()=> showToast("Cash drawer opene
 document.querySelectorAll(".topnav button").forEach(btn=>{
   btn.onclick = ()=>{
     if(btn.dataset.tab==="orders"){ openHeldPanel(); return; }
-    document.querySelectorAll(".topnav button").forEach(b=>b.classList.remove("active"));
-    btn.classList.add("active");
-    if(btn.dataset.tab!=="new") showToast("That section's not wired up yet — roleplay it! 😄");
+    showPage(btn.dataset.tab);
+  };
+});
+
+document.querySelectorAll('.pill').forEach(pill=>{
+  pill.onclick = ()=>{
+    document.querySelectorAll('.pill').forEach(p=>p.classList.toggle('active', p===pill));
+  };
+});
+
+document.querySelectorAll('.theme-swatch').forEach(swatch=>{
+  swatch.onclick = ()=>{
+    setTheme(swatch.dataset.theme);
+  };
+});
+
+document.querySelectorAll('.toggle-btn').forEach(btn=>{
+  btn.onclick = ()=>{
+    const pref = btn.dataset.toggle;
+    setPreference(pref, !appState[pref]);
   };
 });
 
