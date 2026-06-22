@@ -247,6 +247,9 @@
   .change-row{display:flex;justify-content:space-between;padding:0 18px 12px;font-size:13px;font-weight:700;}
   .change-row .val.neg{color:var(--red);}
   .change-row .val.pos{color:var(--green-dark);}
+  .customer-row{display:flex;align-items:center;gap:10px;padding:10px 18px;border-top:1px solid var(--border);}
+  .customer-row label{font-size:11.5px;font-weight:700;color:var(--muted);width:90px;}
+  .customer-row input{flex:1;border:1.5px solid var(--border);border-radius:9px;padding:8px 10px;font-size:14px;font-weight:700;text-align:left;font-family:'Inter';min-width:0}
 
   .pay-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 18px 12px;}
   .pay-btn{
@@ -512,10 +515,7 @@
             <button data-type="Take-out">🛍 Take-out</button>
           </div>
         </div>
-          <div class="meta-block">
-            <label>Customer</label>
-            <input id="customerNameInput" type="text" placeholder="Customer name" />
-          </div>
+        
       </div>
 
       <div class="order-list" id="orderList"></div>
@@ -529,6 +529,11 @@
         <div class="t-row"><span>Subtotal</span><span id="subtotalVal">₱0.00</span></div>
         <div class="t-row"><span>VAT (12%)</span><span id="vatVal">₱0.00</span></div>
         <div class="t-row total"><span>TOTAL</span><span class="amt" id="totalVal">₱0.00</span></div>
+      </div>
+
+      <div class="customer-row">
+        <label>Customer</label>
+        <input id="customerNameInput" type="text" placeholder="Customer name" />
       </div>
 
       <div class="tender-row">
