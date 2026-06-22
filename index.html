@@ -138,7 +138,7 @@
   .order-panel{
     width:400px;flex-shrink:0;background:var(--panel);border-left:1px solid var(--border);
     display:flex;flex-direction:column;margin:18px 18px 18px 0;border-radius:var(--radius);
-    box-shadow:var(--shadow);overflow:hidden;
+    box-shadow:var(--shadow);overflow:hidden;min-height:0;max-height:calc(100vh - 36px);
   }
   .order-head{
     background:linear-gradient(180deg,var(--red),var(--red-dark));color:#fff;
@@ -305,7 +305,7 @@
     .body{flex-direction:row;gap:0;}
     .sidebar{display:none;}
     .menu-section{flex:1;order:1;padding:8px;min-width:0;}
-    .order-panel{order:2;width:280px;flex-shrink:0;margin:8px 8px 8px 0;border-radius:10px;overflow:hidden;}
+    .order-panel{order:2;width:280px;flex-shrink:0;margin:8px 8px 8px 0;border-radius:10px;overflow:hidden;max-height:calc(100vh - 64px);}
     .menu-grid{grid-template-columns:repeat(4,1fr);gap:6px;padding-bottom:10px;}
     .item-card{border-radius:10px;}
     .item-img{height:70px;font-size:32px;}
@@ -340,7 +340,7 @@
     <aside class="sidebar">
       <button class="side-btn active" data-side="menu"><span class="ic">📋</span>Menu</button>
       <button class="side-btn" data-side="promos"><span class="ic">⭐</span>Promos</button>
-      <button class="side-btn" data-side="bev"><span class="ic">🥤</span>Beverages</button>
+      <button class="side-btn" data-side="drinks"><span class="ic">🥤</span>Beverages</button>
       <button class="side-btn" data-side="addons"><span class="ic">➕</span>Add-ons</button>
       <button class="side-btn" data-side="value"><span class="ic">🍱</span>Value Meals</button>
       <button class="side-btn" data-side="desserts"><span class="ic">🍰</span>Desserts</button>
@@ -422,26 +422,34 @@
 <script>
 /* ---------- DATA ---------- */
 const MENU = [
-  {id:1,  name:"1 pc. Chickenjoy with Rice", price:99,  cat:"chicken",   icon:"🍗", tag:"BESTSELLER"},
-  {id:2,  name:"Jolly Spaghetti",            price:65,  cat:"spaghetti", icon:"🍝"},
-  {id:3,  name:"Yumburger",                  price:40,  cat:"burgers",   icon:"🍔"},
-  {id:4,  name:"Burger Steak with Rice",     price:79,  cat:"rice",      icon:"🍛"},
-  {id:5,  name:"1 pc. Chickenjoy Solo",      price:82,  cat:"chicken",   icon:"🍗"},
-  {id:6,  name:"6 pc. Chickenjoy Bucket",    price:679, cat:"chicken",   icon:"🪣"},
-  {id:7,  name:"Palabok Fiesta",             price:89,  cat:"rice",      icon:"🍜"},
-  {id:8,  name:"Jolly Hotdog",               price:50,  cat:"burgers",   icon:"🌭"},
-  {id:9,  name:"Peach Mango Pie",            price:45,  cat:"desserts",  icon:"🥧"},
-  {id:10, name:"Coke Regular",               price:35,  cat:"drinks",    icon:"🥤"},
-  {id:11, name:"Sprite Regular",             price:35,  cat:"drinks",    icon:"🥤"},
-  {id:12, name:"Iced Tea Regular",           price:35,  cat:"drinks",    icon:"🧊"},
-  {id:13, name:"2 pc. Chickenjoy with Rice", price:150, cat:"chicken",   icon:"🍗"},
-  {id:14, name:"Cheesy Champ",               price:95,  cat:"burgers",   icon:"🧀"},
-  {id:15, name:"Halo-Halo",                  price:75,  cat:"desserts",  icon:"🍧"},
-  {id:16, name:"Spaghetti w/ 1pc Chicken",   price:120, cat:"spaghetti", icon:"🍝"},
-  {id:17, name:"Garlic Rice (cup)",          price:20,  cat:"rice",      icon:"🍚"},
-  {id:18, name:"Sundae Chocolate",           price:29,  cat:"desserts",  icon:"🍦"},
+  {id:1,  name:"2 pc. Chickenjoy with Rice",        price:150, cat:"chicken", icon:"🍗", tag:"BESTSELLER"},
+  {id:2,  name:"1 pc. Chickenjoy with Rice",        price:99,  cat:"chicken", icon:"🍗"},
+  {id:3,  name:"6 pc. Chickenjoy Bucket",           price:679, cat:"chicken", icon:"🪣", tag:"FAMILY"},
+  {id:4,  name:"Jolly Spaghetti",                   price:65,  cat:"spaghetti", icon:"🍝", tag:"CLASSIC"},
+  {id:5,  name:"Spaghetti with 1 pc. Chicken",      price:120, cat:"promos", icon:"🍝", tag:"PROMO"},
+  {id:6,  name:"Yumburger",                         price:40,  cat:"burgers", icon:"🍔"},
+  {id:7,  name:"Cheesy Champ",                      price:95,  cat:"burgers", icon:"🧀"},
+  {id:8,  name:"Jolly Hotdog",                       price:50,  cat:"burgers", icon:"🌭"},
+  {id:9,  name:"Burger Steak with Rice",            price:79,  cat:"rice", icon:"🍛"},
+  {id:10, name:"Palabok Fiesta",                    price:89,  cat:"rice", icon:"🍜"},
+  {id:11, name:"Halo-Halo",                         price:75,  cat:"desserts", icon:"🍧"},
+  {id:12, name:"Peach Mango Pie",                   price:45,  cat:"desserts", icon:"🥧"},
+  {id:13, name:"Sundae Chocolate",                  price:29,  cat:"desserts", icon:"🍦"},
+  {id:14, name:"Coke Regular",                      price:35,  cat:"drinks", icon:"🥤"},
+  {id:15, name:"Sprite Regular",                    price:35,  cat:"drinks", icon:"🥤"},
+  {id:16, name:"Iced Tea Regular",                  price:35,  cat:"drinks", icon:"🧊"},
+  {id:17, name:"Hot Coffee",                        price:40,  cat:"drinks", icon:"☕"},
+  {id:18, name:"Garlic Rice (cup)",                 price:20,  cat:"addons", icon:"🍚"},
+  {id:19, name:"Jolly Crispy Fries",                price:35,  cat:"addons", icon:"🥔"},
+  {id:20, name:"Maize Corn Cup",                    price:30,  cat:"addons", icon:"🌽"},
+  {id:21, name:"Extra Chicken Gravy",               price:10,  cat:"addons", icon:"🥣"},
+  {id:22, name:"Yumburger Value Meal",              price:85,  cat:"value", icon:"🍔", tag:"VALUE"},
+  {id:23, name:"Jolly Hotdog Value Meal",           price:98,  cat:"value", icon:"🌭", tag:"VALUE"},
+  {id:24, name:"Cheesy Champ Value Meal",           price:118, cat:"value", icon:"🧀", tag:"VALUE"},
+  {id:25, name:"Burger Steak Value Meal",           price:129, cat:"value", icon:"🍛", tag:"VALUE"},
+  {id:26, name:"Family Chickenjoy Bucket Promo",    price:999, cat:"promos", icon:"🍗", tag:"PROMO"},
 ];
-const CATS = [["all","All"],["chicken","Chicken"],["burgers","Burgers"],["spaghetti","Spaghetti"],["rice","Rice Meals"],["drinks","Drinks"],["desserts","Desserts"]];
+const CATS = [["all","All"],["promos","Promos"],["chicken","Chicken"],["burgers","Burgers"],["spaghetti","Spaghetti"],["rice","Rice Meals"],["drinks","Beverages"],["value","Value Meals"],["desserts","Desserts"],["addons","Add-ons"]];
 
 let cart = [];
 let heldOrders = [];
@@ -727,7 +735,9 @@ document.querySelectorAll(".side-btn").forEach(btn=>{
   btn.onclick = ()=>{
     document.querySelectorAll(".side-btn").forEach(b=>b.classList.remove("active"));
     btn.classList.add("active");
-    if(btn.dataset.side!=="menu"){ activeCat="all"; renderCatTabs(); showToast("Coming soon — for now everything's under Menu"); }
+    activeCat = btn.dataset.side === "menu" ? "all" : btn.dataset.side;
+    renderCatTabs();
+    renderMenu();
   };
 });
 
